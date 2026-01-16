@@ -3,6 +3,11 @@
  */
 package ticket.booking;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 public class App {
     /*public String getGreeting() {
         return "Hello World!";
@@ -10,5 +15,14 @@ public class App {
 
     public static void main(String[] args) {
         //System.out.println(new App().getGreeting());
+        List<Integer> l = Arrays.asList(1,2,3,4,5,6,7,8,9);
+        //List<Integer> l1 = l.stream().filter(checkEven()).collect(Collectors.toList());
+        l.stream().map(e -> e*2).collect(Collectors.toList());
+
     }
+
+    /*public static Predicate<Integer> checkEven() {
+        return i -> i % 2 == 0;
+    }*/
+    //Integer apply(Integer)
 }
