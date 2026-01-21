@@ -3,6 +3,7 @@ package ticket.booking.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ticket.booking.entities.User;
+import ticket.booking.util.UserServiceUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,9 +23,14 @@ public class UserBookingService {
     public UserBookingService(User user1) throws IOException
     {
         this.user = user1;
-            File users = new File(USERS_PATH);
-            userList = objectMapper.readValue(users, new TypeReference<List<User>>(){});
+        loadUserListFromFile();
     }
+
+    public void loadUserListFromFile() throws IOException {
+        File users = new File(USERS_PATH);
+        userList = objectMapper.readValue(users, new TypeReference<List<User>>(){});
+    }
+
     public Boolean loginUser(){
         Optional<User> foundUser = userList.stream().filter(user1 -> {
             return user1.getName().equals(user.getName()) && UserServiceUtil.checkPassword(user.getPassword(), user1.getHashedPassword());
@@ -39,6 +45,20 @@ public class UserBookingService {
             return Boolean.TRUE;
         }catch (IOException ex){
             return Boolean.FALSE;
+        }
+    }
+
+    private void saveUserListToFile() throws IOException {
+        File users = new File(USERS_PATH);
+        objectMapper.writeValue(users, userList);
+    }
+
+    public void fetchBookings(){
+        Optional<User> userFetched = userList.stream().filter(user1 -> {
+            return user1.getName().equals(user.getName()) && UserServiceUtil.checkPassword(user.getPassword(), user1.getHashedPassword());
+        }).findFirst();
+        if (userFetched.isPresent()){
+            userFetched.get().printTickets();
         }
     }
 }

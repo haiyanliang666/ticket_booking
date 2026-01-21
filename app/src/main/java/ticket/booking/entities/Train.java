@@ -21,8 +21,6 @@ public class Train {
     private String trainNo;
     private List<List<Integer>> seats;
     private Map<String, String> stationTimes;
-    private Time departureTimes;
-    private Time arriveTimes;
     private List<String> stations;
 
     public Train(String trainId, String trainNo, List<List<Integer>> seats, Map<String, String> stationTimes, List<String> stations){
